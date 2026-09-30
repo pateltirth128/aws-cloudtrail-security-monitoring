@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/32871956/README.md)
 # AWS CloudTrail Security Monitoring: Detecting Suspicious IAM Activity
 
 A real-time alerting pipeline in AWS that detects common attacker behaviour — creating backdoor accounts, escalating privileges, and disabling audit logs — and emails an alert within seconds. I tested it by simulating an attack on my own account and investigating the results like a SOC analyst.
