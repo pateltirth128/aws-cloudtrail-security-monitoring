@@ -65,7 +65,7 @@ This is the whole attack, step by step, with screenshots from my account. Times 
 | 4 | Stopped CloudTrail to hide his tracks | ✅ Email in seconds |
 | 5 | Signed in as root | ❌ Logged, but no email |
 
-### Chapter 1: Setting up the guard 🛡️
+### Chapter 1: Setting up the guard 
 
 Before anything happened, I set up my defenses. CloudTrail was recording everything, and I wrote 3 EventBridge rules to watch for attacker behaviour.
 
@@ -75,13 +75,13 @@ Then I connected the rules to an SNS topic so every match would land in my inbox
 
 ![SNS email subscription confirmed](screenshots/07-sns-confirmed.png)
 
-### Chapter 2: A normal night 😴
+### Chapter 2: A normal night 
 
 This is my account before the attack. Just one user, my admin account `tirth-admin`. Everything looks normal.
 
 ![Only one IAM user before the attack](screenshots/01-iam-before.png)
 
-### Chapter 3: Tony breaks in and builds a backdoor 😈 (11:55 PM)
+### Chapter 3: Tony breaks in and builds a backdoor  (11:55 PM)
 
 In my scenario, Tony found my leaked admin credentials. The first thing a smart attacker does is make sure he can get back in even if I change my password. So Tony created his own user called `backdoor-admin`, gave it full `AdministratorAccess`, and created an access key for it.
 
@@ -91,7 +91,7 @@ In my scenario, Tony found my leaked admin credentials. The first thing a smart 
 
 ![CreateUser alert email](screenshots/08-alert-createuser.png)
 
-### Chapter 4: Tony tries to hide 🙈 (12:01 AM)
+### Chapter 4: Tony tries to hide  (12:01 AM)
 
 Next, Tony turned off CloudTrail so nothing else he did would get recorded. Here's the trail with logging switched **Off**.
 
@@ -101,7 +101,7 @@ But here's the thing: **turning off logging is itself a logged action.** The `St
 
 ![StopLogging alert email](screenshots/03-alert-stoplogging.png)
 
-### Chapter 5: Tony goes for root 👑 (12:04 AM)
+### Chapter 5: Tony goes for root  (12:04 AM)
 
 Finally, Tony signed in as the root user, the most powerful account there is. I waited for the alert... and nothing came.
 
@@ -111,7 +111,7 @@ So I put on my investigator hat. I searched CloudTrail Event History for `Consol
 
 The root login was recorded, just in a different region than the one my rule was watching. EventBridge rules only see events in their own region, so my alert never had a chance to fire.
 
-### Chapter 6: Kicking Tony out 🚫
+### Chapter 6: Kicking Tony out 
 
 Time to clean up. I turned CloudTrail logging back on, deleted Tony's access key, and deleted `backdoor-admin`. The account is back to just my admin user.
 
@@ -147,14 +147,6 @@ The big lesson for me: **don't assume a detection works just because the rule lo
 - **Every attacker event showed `"mfaAuthenticated": "false"`.** My admin user didn't have MFA, which is exactly the gap a real attacker would use. I've added MFA since.
 - **Log file validation was off on my trail.** I missed it during setup and only noticed while reviewing. It should be on so you can prove the logs weren't changed.
 - **Same user and same IP for every attack step.** In a real investigation, that pattern points to one stolen credential being used for the whole attack.
-
----
-
-## Tools and Cost
-
-- **AWS:** CloudTrail, EventBridge, SNS, S3, IAM
-- **Framework:** MITRE ATT&CK
-- **Cost:** $0 (AWS Free plan)
 
 ---
 
