@@ -51,7 +51,7 @@ The JSON for each rule is in [`eventbridge-rules/`](eventbridge-rules/).
 
 ---
 
-## 🎬 The Story: Tirth vs. Tony
+##  The Story: Tirth vs. Tony
 
 This is the whole attack, step by step, with screenshots from my account. Times are Regina time (CST). I blurred my account ID, email, IP and key IDs.
 
